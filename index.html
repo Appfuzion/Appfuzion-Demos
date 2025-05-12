@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Appfuzion Demo</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: black;
+      color: #00ff00;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    .container { padding: 2rem; max-width: 1200px; margin: 0 auto; text-align: center; }
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 10px #00ff00;
+    }
+    .search-bar {
+      margin: 1rem auto 2rem;
+      width: 100%;
+      max-width: 500px;
+    }
+    .search-bar input {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      background: black;
+      color: #00ff00;
+      border: 1px solid #00ff00;
+      border-radius: 5px;
+      box-shadow: 0 0 5px #00ff00;
+    }
+    .intro-video {
+      margin: 3rem auto;
+      max-width: 800px;
+      box-shadow: 0 0 25px #00ff00;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .intro-video iframe {
+      width: 100%;
+      height: 450px;
+      border: none;
+    }
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .video-card {
+      background: rgba(0, 255, 0, 0.05);
+      border: 1px solid #00ff00;
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 0 15px #00ff00;
+      transition: transform 0.2s;
+    }
+    .video-card:hover { transform: scale(1.05); }
+    .video-card h2 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 5px #00ff00;
+    }
+    .video-card iframe {
+      width: 100%;
+      height: 160px;
+      border: none;
+      border-radius: 5px;
+    }
+    canvas#matrix {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -2;
+      width: 100%;
+      height: 100%;
+      background: black;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="matrix"></canvas>
+  <div class="container">
+    <h1>APPFUZION DEMO</h1>
+    <div class="search-bar">
+      <input type="text" placeholder="Search Appfuzion..." />
+    </div>
+
+    <!-- Introductory Large Video -->
+    <div class="intro-video">
+      <iframe src="https://www.youtube.com/embed/3rAXwxyqzl0" allowfullscreen></iframe>
+    </div>
+
+    <!-- Grid of 6 videos -->
+    <div class="video-grid">
+      <div class="video-card">
+        <h2>Appfuzion Demo</h2>
+        <iframe src="https://www.youtube.com/embed/N-f-mnlPKMY" allowfullscreen></iframe>
+      </div>
+      <div class="video-card">
+        <h2>Appfuzion Demo</h2>
+        <iframe src="https://www.youtube.com/embed/6WShi_o6D_k" allowfullscreen></iframe>
+      </div>
+      <div class="video-card">
+        <h2>Appfuzion Demo</h2>
+        <iframe src="https://www.youtube.com/embed/3rAXwxyqzl0" allowfullscreen></iframe>
+      </div>
+      <div class="video-card">
+        <h2>Appfuzion Demo</h2>
+        <iframe src="https://www.youtube.com/embed/N-f-mnlPKMY" allowfullscreen></iframe>
+      </div>
+      <div class="video-card">
+        <h2>Appfuzion Demo</h2>
+        <iframe src="https://www.youtube.com/embed/6WShi_o6D_k" allowfullscreen></iframe>
+      </div>
+      <div class="video-card">
+        <h2>Appfuzion Demo</h2>
+        <iframe src="https://www.youtube.com/embed/3rAXwxyqzl0" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    const letters = "アカサタナハマヤラワ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#0F0";
+      ctx.font = fontSize + "px monospace";
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+    setInterval(drawMatrix, 33);
+
+    window.addEventListener('resize', () => {
+      canvas.height = window.innerHeight;
+      canvas.width = window.innerWidth;
+    });
+  </script>
+</body>
+</html>
